@@ -21,7 +21,7 @@ sudo apt install arp-scan nmap mailutils postfix rsyslog -y
 sudo chmod 1777 /tmp/
 ```
 
-### 2️⃣ Descargar y Preparar `ieee-oui.txt`
+### 3️⃣ Descargar y Preparar `ieee-oui.txt`
 Este archivo permite que `arp-scan` identifique fabricantes por direcciones MAC:
 
 ```bash
@@ -37,7 +37,7 @@ sudo sed -i 's/   (hex)//g' /usr/share/arp-scan/ieee-oui.txt
 sudo grep -E '^[0-9A-Fa-f]{2}[-:][0-9A-Fa-f]{2}[-:][0-9A-Fa-f]{2}' /usr/share/arp-scan/ieee-oui.txt > /usr/share/arp-scan/ieee-oui-clean.txt
 sudo mv /usr/share/arp-scan/ieee-oui-clean.txt /usr/share/arp-scan/ieee-oui.txt
 sudo chmod 644 /usr/share/arp-scan/ieee-oui.txt
-sudo chown iot:iot /usr/share/arp-scan/ieee-oui.txt
+exit
 sudo ln -sf /usr/share/arp-scan/ieee-oui.txt /etc/ieee-oui.txt
 sudo ln -sf /usr/share/arp-scan/ieee-oui.txt /etc/arp-scan/ieee-oui.txt
 ```
@@ -116,24 +116,24 @@ tail -f /var/log/mail.log
 
 ## 🖥️ Script de Escaneo de Red
 
-Crea el script `detect_wifi_devices.sh`:
+Crea el script `detect_wifi_devices.sh` (cambia `/home/tu_usuario/` por la carpeta de tu usuario):
 
 ```bash
-sudo nano /home/iot/detect_wifi_devices.sh
+sudo nano /home/tu_usuario/detect_wifi_devices.sh
 ```
 
-Añade esto:
+Ajusta el siguiente script con el rango IP de tu propia red local (ejemplo típico `192.168.1.0/24`):
 
 ```bash
 #!/bin/bash
 
-SUBNET="10.0.0.0/24"
+SUBNET="192.168.1.0/24"
 ARP_FILE="/tmp/arp-scan-results.txt"
-KNOWN_DEVICES="/home/iot/known_devices.txt"
+KNOWN_DEVICES="/home/tu_usuario/known_devices.txt"
 
 sudo arp-scan --localnet > $ARP_FILE
 
-cat $ARP_FILE | grep "10.0.0." | awk '{print $1, $2}' | sort | while read ip mac; do
+cat $ARP_FILE | grep "192.168." | awk '{print $1, $2}' | sort | while read ip mac; do
     oui=$(echo $mac | cut -c1-8 | tr ':' '-')
     vendor=$(grep -i ^$oui /usr/share/arp-scan/ieee-oui.txt | head -n 1 | awk '{$1=""; print $0}' | sed 's/^ *//')
     echo "$ip $mac - ${vendor:-Desconocido}"
@@ -163,58 +163,41 @@ if [ ! -z "$NEW_DEVICES" ]; then
 fi
 ```
 
-Dale permisos de ejecución:
+Permisos:
 ```bash
-sudo chmod +x /home/iot/detect_wifi_devices.sh
+sudo chmod +x /home/tu_usuario/detect_wifi_devices.sh
 ```
 
 Ejecuta para probar:
 ```bash
-/home/iot/detect_wifi_devices.sh
+/home/tu_usuario/detect_wifi_devices.sh
 ```
 
 ---
 
 ## 🕒 Automatizar con Cron
-Abre el cron:
+
 ```bash
 crontab -e
 ```
 
-Añade esta línea (cada 5 minutos):
-
+Añade (cada 5 min, ajusta tu usuario):
 ```bash
-*/5 * * * * /home/iot/detect_wifi_devices.sh >> /var/log/detect_wifi.log 2>&1
-```
-
-Guarda y revisa:
-```bash
-crontab -l
-```
-
----
-
-## 📝 Comprobar Logs
-Revisa que todo funcione correctamente:
-
-```bash
-tail -f /var/log/detect_wifi.log
-tail -f /var/log/mail.log
+*/5 * * * * /home/tu_usuario/detect_wifi_devices.sh >> /var/log/detect_wifi.log 2>&1
 ```
 
 ---
 
 ## 📄 Licencia
-
-Este proyecto está bajo la licencia **MIT**. Eres libre de utilizar, modificar y distribuir este software según sus términos. Para más información, revisa el archivo [LICENSE](LICENSE).
+Este proyecto está bajo la licencia **MIT**.
 
 ---
 
-📌 **Contacto y más información:**
-- [🌐 Visita mi web](https://davidcanoteayuda.com)
-- [📲 Únete a mi Telegram](https://t.me/davidcanoteayuda_oficial)
-- [🤖 Conéctate en Discord](https://discord.com)
-- 🎥 [Descubre más en mi canal de YouTube](https://www.youtube.com)  
+📌 **Contacto:**
+- [🌐 Web](https://davidcanoteayuda.com)
+- [📲 Telegram](https://t.me/davidcanoteayuda_oficial)
+- [🤖 Discord](https://discord.com)
+- 🎥 [YouTube](https://www.youtube.com)
 
 ---
 
