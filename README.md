@@ -1,5 +1,7 @@
 # 📡 Detector de Nuevos Dispositivos Wi-Fi con Raspberry Pi
 
+📺 **[Ver Video en YouTube](https://youtu.be/IvHE9_NFi6M)**
+
 Este proyecto explica cómo configurar desde cero una Raspberry Pi para escanear automáticamente la red Wi-Fi local y recibir una alerta por correo electrónico cada vez que un **nuevo dispositivo** se conecte a tu red.
 
 ---
@@ -38,15 +40,6 @@ sudo chmod 644 /usr/share/arp-scan/ieee-oui.txt
 sudo chown iot:iot /usr/share/arp-scan/ieee-oui.txt
 sudo ln -sf /usr/share/arp-scan/ieee-oui.txt /etc/ieee-oui.txt
 sudo ln -sf /usr/share/arp-scan/ieee-oui.txt /etc/arp-scan/ieee-oui.txt
-```
-
----
-
-### 2️⃣ Instalación de Paquetes para Escanear y Enviar Correos
-
-```bash
-sudo apt install arp-scan nmap mailutils postfix rsyslog -y
-sudo chmod 1777 /tmp/
 ```
 
 ---
@@ -226,5 +219,4 @@ Este proyecto está bajo la licencia **MIT**. Eres libre de utilizar, modificar 
 ---
 
 ¡Gracias por usar mi proyecto! ⭐
-```
 
