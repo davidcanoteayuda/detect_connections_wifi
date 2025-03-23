@@ -196,8 +196,8 @@ Este proyecto está bajo la licencia **MIT**.
 📌 **Contacto:**
 - [🌐 Web](https://davidcanoteayuda.com)
 - [📲 Telegram](https://t.me/davidcanoteayuda_oficial)
-- [🤖 Discord]([https://discord.com](https://discord.gg/MZakvUBxqz))
-- 🎥 [YouTube]([https://www.youtube.com](https://www.youtube.com/@davidcanoteayuda?sub_confirmation=1))
+- [🤖 Discord](https://discord.gg/MZakvUBxqz)
+- 🎥 [YouTube](https://www.youtube.com/@davidcanoteayuda?sub_confirmation=1)
 
 ---
 
